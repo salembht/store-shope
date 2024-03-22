@@ -48,4 +48,20 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(AccountRole::class, 'account__roles_users');
     }
+    public function carts()
+    {
+        return $this->hasMany(CartItem::class);
+    }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+    public function userAddress()
+    {
+        return $this->hasOne(userAddress::class);
+    }
 }
