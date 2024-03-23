@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\AccountRole;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class RoleController extends Controller
 {
@@ -21,7 +22,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Dashboard/Role/add');
     }
 
     /**
@@ -29,7 +30,11 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $role= AccountRole::create([
+            'name'=>$request->name,
+            'label'=>$request->label
+        ]);
+        
     }
 
     /**
