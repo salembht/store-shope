@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\BrandsController;
+use App\Http\Controllers\Admin\CatogryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
@@ -40,6 +42,9 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('product',[ProductController::class ,'index'])->name('product');
+    Route::get('/products/store',[ProductController::class ,'create'])->name('product.create');
+    Route::post('/products/store',[ProductController::class ,'store'])->name('product.store');
+   
     Route::get('verify-email', EmailVerificationPromptController::class)
                 ->name('verification.notice');
 
