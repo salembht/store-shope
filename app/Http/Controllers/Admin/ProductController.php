@@ -7,7 +7,9 @@ use App\Models\Brand;
 use App\Models\Cateogry;
 use App\Models\Product;
 use App\Models\ProductImage;
+use Dotenv\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator as FacadesValidator;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 class ProductController extends Controller
@@ -26,7 +28,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/Product/add' );
+        $catogery = Cateogry::all();
+        $brand =Brand::all();
+        return Inertia::render('Admin/Product/add',['categories'=>$catogery ,'brands'=>$brand] );
     }
 
     /**
@@ -34,19 +38,27 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = FacadesValidator::make($request->all(), [
             'title' => 'required',
-            'slug' => 'required',
+            'sluge' => 'required',
             'quantity' => 'required|integer',
             'description' => 'required',
             'published' => 'required|boolean',
             'inStock' => 'required|boolean',
             'price' => 'required|numeric',
-            'categoryId' => 'required|exists:categories,id',
+            'categoryId' => 'required|exists:cateogries,id',
             'brandId' => 'required|exists:brands,id',
         ]);
-
-        $product = Product::create($validatedData);
+        
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
+        }
+        
+        $product = Product::create($request->all());
+        
+        $product = Product::create($request->all());
         if($request->hasFile('product_images'))
         {
             $productImages = $request->file('product_images');

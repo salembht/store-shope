@@ -10,7 +10,7 @@ import productList from './productList.vue';
         <main>
             <productList>
 
-</productList>
+         </productList>
         </main>
         
     </AuthenticatedLayout>
